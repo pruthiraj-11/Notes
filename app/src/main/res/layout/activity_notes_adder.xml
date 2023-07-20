@@ -41,10 +41,11 @@
     <EditText
         android:id="@+id/editText_notes"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="start"
         android:hint="Start typing..."
-        android:padding="8dp"
         android:inputType="text|textMultiLine"
+        android:padding="8dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textSize="18sp"
