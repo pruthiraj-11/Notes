@@ -66,24 +66,16 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             }
         });
     }
-
     private int getRandomColour(){
-        List<Integer> code=new ArrayList<>();
-        code.add(R.color.color1);
-        code.add(R.color.color2);
-        code.add(R.color.color3);
-        code.add(R.color.color4);
-        code.add(R.color.color5);
+        int code[]={R.color.color1,R.color.color2,R.color.color3,R.color.color4,R.color.color5};
         Random random=new Random();
-        int random_color=random.nextInt(code.size());
-        return code.get(random_color);
+        int random_color=random.nextInt(code.length);
+        return code[random_color];
     }
-
     @Override
     public int getItemCount() {
         return list.size();
     }
-
     public void filterList(List<Notes> list){
         this.list=list;
         notifyDataSetChanged();
