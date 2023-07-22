@@ -15,7 +15,6 @@ import com.bunty.notes.Models.Notes;
 import com.bunty.notes.NotesOnClickListener;
 import com.bunty.notes.R;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -34,7 +33,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.sanple_notes,parent,false));
+        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.sanple_notes, parent, false));
     }
 
     @Override
@@ -52,22 +51,14 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         }
         int color_code=getRandomColour();
         holder.cardView.setCardBackgroundColor(holder.itemView.getResources().getColor(color_code,null));
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                notesOnClickListener.onClick(list.get(holder.getAdapterPosition()));
-            }
-        });
-        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                notesOnClickListener.onLongClick(list.get(holder.getAdapterPosition()),holder.cardView);
-                return true;
-            }
+        holder.cardView.setOnClickListener(v -> notesOnClickListener.onClick(list.get(holder.getAdapterPosition())));
+        holder.cardView.setOnLongClickListener(v -> {
+            notesOnClickListener.onLongClick(list.get(holder.getAdapterPosition()),holder.cardView);
+            return true;
         });
     }
     private int getRandomColour(){
-        int code[]={R.color.color1,R.color.color2,R.color.color3,R.color.color4,R.color.color5};
+        int[] code ={R.color.color1,R.color.color2,R.color.color3,R.color.color4,R.color.color5};
         Random random=new Random();
         int random_color=random.nextInt(code.length);
         return code[random_color];
@@ -80,7 +71,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         this.list=list;
         notifyDataSetChanged();
     }
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder{
 
         CardView cardView;
         TextView title, note_date, notes_text;
