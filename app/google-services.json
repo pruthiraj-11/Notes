@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "73797836273",
+    "project_id": "notes-3fae4",
+    "storage_bucket": "notes-3fae4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:73797836273:android:c2ccabda349fb383833850",
+        "android_client_info": {
+          "package_name": "com.bunty.notes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "73797836273-82203tfhqhhg99tub9v6f9p4bu0s0kre.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAu4Ej81t7BWcRV89-d3PHqsjtnBBADecg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "73797836273-82203tfhqhhg99tub9v6f9p4bu0s0kre.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
