@@ -60,8 +60,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     private int getRandomColour(){
         int[] code ={R.color.color1,R.color.color2,R.color.color3,R.color.color4,R.color.color5};
         Random random=new Random();
-        int random_color=random.nextInt(code.length);
-        return code[random_color];
+        return code[random.nextInt(code.length)];
     }
     @Override
     public int getItemCount() {
