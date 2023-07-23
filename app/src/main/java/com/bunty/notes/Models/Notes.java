@@ -26,14 +26,6 @@ public class Notes implements Serializable {
     @ColumnInfo(name = "pinned")
     boolean isPinned=false;
 
-    public boolean isOld() {
-        return isOld;
-    }
-
-    public void setOld(boolean old) {
-        isOld = old;
-    }
-
     @ColumnInfo(name = "isOld")
     boolean isOld=false;
 
@@ -75,5 +67,13 @@ public class Notes implements Serializable {
 
     public void setPinned(boolean pinned) {
         isPinned = pinned;
+    }
+
+    public boolean isOld() {
+        return isOld;
+    }
+
+    public void setOld(boolean old) {
+        isOld = old;
     }
 }

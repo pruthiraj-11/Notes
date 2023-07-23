@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     List<Notes> list=new ArrayList<>();
     RoomDB roomDB;
     Notes clickedNotes;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         binding=ActivityMainBinding.inflate(getLayoutInflater());
@@ -140,7 +139,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
-                .setTitle("Really Exit?")
                 .setMessage("Are you sure you want to exit?")
                 .setNegativeButton(android.R.string.no, null)
                 .setPositiveButton(android.R.string.yes, (arg0, arg1) -> MainActivity.super.onBackPressed()).create().show();

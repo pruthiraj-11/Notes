@@ -50,7 +50,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             holder.imageView.setImageResource(0);
         }
         if(!list.get(position).isOld()){
-            list.get(position).setOld(true);
             int color_code=getRandomColour();
             holder.cardView.setCardBackgroundColor(holder.itemView.getResources().getColor(color_code,null));
         }

@@ -27,4 +27,7 @@ public interface MainDAO {
 
     @Query("update notes set pinned=:pin where id=:id")
     void pin(int id, boolean pin);
+
+    @Query("update notes set isOld=:isOld where id=:id")
+    void isOld(int id,boolean isOld);
 }
