@@ -136,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             roomDB.mainDAO().delete(clickedNotes);
             list.remove(clickedNotes);
             noteAdapter.notifyDataSetChanged();
+            startActivity(new Intent(getApplicationContext(), TrashActivity.class));
             Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id==R.id.swc) {
