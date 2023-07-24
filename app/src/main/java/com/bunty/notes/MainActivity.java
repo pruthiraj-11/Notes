@@ -132,13 +132,14 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             return true;
         }
         else if(id==R.id.delete){
+            database.getReference().child("UserTrashNotes").child(android_device_id).child(String.valueOf(clickedNotes.getID())).setValue(clickedNotes);
             roomDB.mainDAO().delete(clickedNotes);
             list.remove(clickedNotes);
             noteAdapter.notifyDataSetChanged();
             Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id==R.id.swc) {
-            database.getReference().getRoot().child(android_device_id).child(String.valueOf(clickedNotes.getID())).setValue(clickedNotes);
+            database.getReference().getRoot().child("UserNotes").child(android_device_id).child(String.valueOf(clickedNotes.getID())).setValue(clickedNotes);
             //Toast.makeText(getApplicationContext(),android_device_id,Toast.LENGTH_SHORT).show();
             return true;
         } else {
