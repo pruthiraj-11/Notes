@@ -3,6 +3,7 @@ package com.bunty.notes;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,6 +55,29 @@ public class NotesAdder extends AppCompatActivity {
             intent.putExtra("note",notes);
             setResult(Activity.RESULT_OK,intent);
             finish();
+        });
+        binding.backbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String title=binding.editTextTitle.getText().toString();
+                String desc=binding.editTextNotes.getText().toString();
+                if(desc.isEmpty()&&title.isEmpty()){
+                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                }
+                SimpleDateFormat simpleDateFormat=new SimpleDateFormat("EEE,d MMM yyyy HH:mm a");
+                Date date=new Date();
+                if(!isOldNote){
+                    notes=new Notes();
+                }
+                notes.setTitle(title);
+                notes.setNotes(desc);
+                notes.setDate(simpleDateFormat.format(date));
+                roomDB.mainDAO().isOld(notes.getID(),true);
+                Intent intent=new Intent();
+                intent.putExtra("note",notes);
+                setResult(Activity.RESULT_OK,intent);
+                finish();
+            }
         });
     }
     @Override

@@ -15,6 +15,15 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/backbutton"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentStart="true"
+                android:background="@android:color/transparent"
+                android:padding="8dp"
+                android:src="@drawable/round_arrow_white" />
             <ImageView
                 android:id="@+id/imagesave"
                 android:layout_alignParentEnd="true"
