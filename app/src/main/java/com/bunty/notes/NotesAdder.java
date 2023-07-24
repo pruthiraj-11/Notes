@@ -60,10 +60,10 @@ public class NotesAdder extends AppCompatActivity {
     public void onBackPressed() {
         String title=binding.editTextTitle.getText().toString();
         String desc=binding.editTextNotes.getText().toString();
-        if(desc.isEmpty()){
-            Toast.makeText(getApplicationContext(),"Please add some text",Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if(desc.isEmpty()){
+//            Toast.makeText(getApplicationContext(),"Please add some text",Toast.LENGTH_SHORT).show();
+//            return;
+//        }
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("EEE,d MMM yyyy HH:mm a");
         Date date=new Date();
         if(!isOldNote){

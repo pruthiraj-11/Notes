@@ -72,10 +72,15 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         if(requestCode==101){
             if(resultCode== Activity.RESULT_OK){
                 Notes notes= (Notes) Objects.requireNonNull(data).getSerializableExtra("note");
-                roomDB.mainDAO().insert(notes);
-                list.clear();
-                list.addAll(roomDB.mainDAO().getAll());
-                noteAdapter.notifyDataSetChanged();
+                if(!notes.getTitle().isEmpty()&&!notes.getNotes().isEmpty()){
+                    roomDB.mainDAO().insert(notes);
+                    list.clear();
+                    list.addAll(roomDB.mainDAO().getAll());
+                    noteAdapter.notifyDataSetChanged();
+                }
+//                else {
+//                    Toast.makeText(getApplicationContext(),"Blank can't be created",Toast.LENGTH_SHORT).show();
+//                }
             }
         } else if (requestCode==102) {
             if(resultCode==Activity.RESULT_OK){
