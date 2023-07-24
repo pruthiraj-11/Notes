@@ -13,7 +13,6 @@ import com.bunty.notes.databinding.ActivityNotesAdderBinding;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
 
 public class NotesAdder extends AppCompatActivity {
     ActivityNotesAdderBinding binding;
@@ -35,27 +34,48 @@ public class NotesAdder extends AppCompatActivity {
         } catch (Exception e){
             e.printStackTrace();
         }
-        binding.imagesave.setOnClickListener(v -> {
-            String title=binding.editTextTitle.getText().toString();
-            String desc=binding.editTextNotes.getText().toString();
-            if(desc.isEmpty()){
-                Toast.makeText(getApplicationContext(),"Please add some text",Toast.LENGTH_SHORT).show();
-                return;
-            }
-            SimpleDateFormat simpleDateFormat=new SimpleDateFormat("EEE,d MMM yyyy HH:mm a");
-            Date date=new Date();
-            if(!isOldNote){
-                notes=new Notes();
-            }
-            notes.setTitle(title);
-            notes.setNotes(desc);
-            notes.setDate(simpleDateFormat.format(date));
-            roomDB.mainDAO().isOld(notes.getID(),true);
-            Intent intent=new Intent();
-            intent.putExtra("note",notes);
-            setResult(Activity.RESULT_OK,intent);
-            finish();
-        });
-
+//        binding.imagesave.setOnClickListener(v -> {
+//            String title=binding.editTextTitle.getText().toString();
+//            String desc=binding.editTextNotes.getText().toString();
+//            if(desc.isEmpty()){
+//                Toast.makeText(getApplicationContext(),"Please add some text",Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            SimpleDateFormat simpleDateFormat=new SimpleDateFormat("EEE,d MMM yyyy HH:mm a");
+//            Date date=new Date();
+//            if(!isOldNote){
+//                notes=new Notes();
+//            }
+//            notes.setTitle(title);
+//            notes.setNotes(desc);
+//            notes.setDate(simpleDateFormat.format(date));
+//            roomDB.mainDAO().isOld(notes.getID(),true);
+//            Intent intent=new Intent();
+//            intent.putExtra("note",notes);
+//            setResult(Activity.RESULT_OK,intent);
+//            finish();
+//        });
+    }
+    @Override
+    public void onBackPressed() {
+        String title=binding.editTextTitle.getText().toString();
+        String desc=binding.editTextNotes.getText().toString();
+        if(desc.isEmpty()){
+            Toast.makeText(getApplicationContext(),"Please add some text",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("EEE,d MMM yyyy HH:mm a");
+        Date date=new Date();
+        if(!isOldNote){
+            notes=new Notes();
+        }
+        notes.setTitle(title);
+        notes.setNotes(desc);
+        notes.setDate(simpleDateFormat.format(date));
+        roomDB.mainDAO().isOld(notes.getID(),true);
+        Intent intent=new Intent();
+        intent.putExtra("note",notes);
+        setResult(Activity.RESULT_OK,intent);
+        finish();
     }
 }
