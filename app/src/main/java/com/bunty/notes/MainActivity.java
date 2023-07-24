@@ -3,6 +3,7 @@ package com.bunty.notes;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import com.bunty.notes.Adapters.NoteAdapter;
 import com.bunty.notes.Database.RoomDB;
 import com.bunty.notes.Models.Notes;
 import com.bunty.notes.databinding.ActivityMainBinding;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,12 +32,15 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     List<Notes> list=new ArrayList<>();
     RoomDB roomDB;
     Notes clickedNotes;
+    FirebaseDatabase database;
+    String android_device_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         binding=ActivityMainBinding.inflate(getLayoutInflater());
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
         roomDB=RoomDB.getInstance(this);
+        database=FirebaseDatabase.getInstance();
         list=roomDB.mainDAO().getAll();
         update(list);
         binding.fabAdd.setOnClickListener(v -> {
@@ -59,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 return true;
             }
         });
+        android_device_id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -131,8 +137,11 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             noteAdapter.notifyDataSetChanged();
             Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
             return true;
-        }
-        else {
+        } else if (id==R.id.swc) {
+            database.getReference().getRoot().child(android_device_id).child(String.valueOf(clickedNotes.getID())).setValue(clickedNotes);
+            //Toast.makeText(getApplicationContext(),android_device_id,Toast.LENGTH_SHORT).show();
+            return true;
+        } else {
             return false;
         }
     }
@@ -143,4 +152,5 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 .setNegativeButton(android.R.string.no, null)
                 .setPositiveButton(android.R.string.yes, (arg0, arg1) -> MainActivity.super.onBackPressed()).create().show();
     }
+
 }

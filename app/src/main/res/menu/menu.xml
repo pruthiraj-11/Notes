@@ -4,4 +4,6 @@
     android:title="Pin/Unpin"/>
 <item android:id="@+id/delete"
     android:title="Delete"/>
+    <item android:id="@+id/swc"
+        android:title="Sync with cloud"/>
 </menu>
