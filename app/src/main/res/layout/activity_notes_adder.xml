@@ -59,8 +59,8 @@
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:text="Date"
-            android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textColor="#758283"
+            android:textSize="15sp"
             android:textStyle="normal" />
 
         <TextView
@@ -69,8 +69,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="0 characters"
-            android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textColor="#758283"
+            android:textSize="15sp"
             android:textStyle="normal" />
     </LinearLayout>
     <EditText
