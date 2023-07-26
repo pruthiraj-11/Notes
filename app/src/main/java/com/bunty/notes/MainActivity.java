@@ -1,7 +1,11 @@
 package com.bunty.notes;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.MenuItem;
@@ -26,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener{
+public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener, ConnectionReceiver.ReceiverListener {
     ActivityMainBinding binding;
     NoteAdapter noteAdapter;
     List<Notes> list=new ArrayList<>();
@@ -72,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         if(requestCode==101){
             if(resultCode== Activity.RESULT_OK){
                 Notes notes= (Notes) Objects.requireNonNull(data).getSerializableExtra("note");
-                if(!notes.getTitle().isEmpty()&&!notes.getNotes().isEmpty()){
+                if(!Objects.requireNonNull(notes).getTitle().isEmpty()&&!notes.getNotes().isEmpty()){
                     roomDB.mainDAO().insert(notes);
                     list.clear();
                     list.addAll(roomDB.mainDAO().getAll());
@@ -86,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             if(resultCode==Activity.RESULT_OK){
                 assert data != null;
                 Notes notes= (Notes) data.getSerializableExtra("note");
-                roomDB.mainDAO().update(notes.getID(),notes.getTitle(),notes.getNotes());
+                roomDB.mainDAO().update(Objects.requireNonNull(notes).getID(),notes.getTitle(),notes.getNotes());
                 list.clear();
                 list.addAll(roomDB.mainDAO().getAll());
                 noteAdapter.notifyDataSetChanged();
@@ -145,12 +149,30 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id==R.id.swc) {
-            database.getReference().getRoot().child("UserNotes").child(android_device_id).child(String.valueOf(clickedNotes.getID())).setValue(clickedNotes);
-            //Toast.makeText(getApplicationContext(),android_device_id,Toast.LENGTH_SHORT).show();
+            if(checkConnection()){
+                database.getReference().getRoot().child("UserNotes").child(android_device_id).child(String.valueOf(clickedNotes.getID())).setValue(clickedNotes);
+                Toast.makeText(getApplicationContext(),"Saved",Toast.LENGTH_SHORT).show();
+            }
+            else {
+               Toast.makeText(getApplicationContext(),"You are offline!",Toast.LENGTH_SHORT).show();
+            }
             return true;
         } else {
             return false;
         }
+    }
+    private boolean checkConnection() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("android.new.conn.CONNECTIVITY_CHANGE");
+        registerReceiver(new ConnectionReceiver(), intentFilter);
+        ConnectionReceiver.Listener = (ConnectionReceiver.ReceiverListener) this;
+        ConnectivityManager manager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        boolean isConnected = networkInfo != null && networkInfo.isConnectedOrConnecting();
+        return isConnected;
+    }
+    public void onNetworkChange(boolean isConnected) {
+        Toast.makeText(getApplicationContext(),"You are offline!",Toast.LENGTH_SHORT).show();
     }
     @Override
     public void onBackPressed() {
@@ -159,5 +181,4 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 .setNegativeButton(android.R.string.no, null)
                 .setPositiveButton(android.R.string.yes, (arg0, arg1) -> MainActivity.super.onBackPressed()).create().show();
     }
-
 }
