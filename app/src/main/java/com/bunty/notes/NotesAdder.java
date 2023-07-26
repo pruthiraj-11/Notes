@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,12 +31,15 @@ public class NotesAdder extends AppCompatActivity {
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("EEE,d MMM yyyy HH:mm a");
         Date date=new Date();
         binding.curdateandtime.setText(simpleDateFormat.format(date));
-        binding.charcnt.setText(String.valueOf(binding.editTextNotes.getText().length())+" characters");
         roomDB=RoomDB.getInstance(this);
         try {
             notes= (Notes) getIntent().getSerializableExtra("old_note");
             binding.editTextTitle.setText(Objects.requireNonNull(notes).getTitle());
             binding.editTextNotes.setText(notes.getNotes());
+            if(binding.editTextNotes.getText().toString().length()>0){
+                binding.imagesave.setVisibility(View.VISIBLE);
+            }
+            binding.charcnt.setText(String.valueOf(binding.editTextNotes.getText().toString().length())+" characters");
             isOldNote=true;
         } catch (Exception e){
             e.printStackTrace();
@@ -81,6 +85,12 @@ public class NotesAdder extends AppCompatActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 binding.charcnt.setText(String.valueOf(s.length())+" characters");
+                if(s.length()>0){
+                    binding.imagesave.setVisibility(View.VISIBLE);
+                }
+                else {
+                    binding.imagesave.setVisibility(View.GONE);
+                }
             }
             public void afterTextChanged(Editable s) {}
         };
