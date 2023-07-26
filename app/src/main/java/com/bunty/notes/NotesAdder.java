@@ -22,18 +22,20 @@ public class NotesAdder extends AppCompatActivity {
     Notes notes;
     RoomDB roomDB;
     boolean isOldNote=false;
+    SimpleDateFormat simpleDateFormat;
+    Date date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         binding=ActivityNotesAdderBinding.inflate(getLayoutInflater());
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
         notes=new Notes();
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("EEE,d MMM yyyy HH:mm a");
-        Date date=new Date();
+        simpleDateFormat=new SimpleDateFormat("EEE,d MMM yyyy HH:mm a");
+        date=new Date();
         binding.curdateandtime.setText(simpleDateFormat.format(date));
         roomDB=RoomDB.getInstance(this);
-        try {
-            notes= (Notes) getIntent().getSerializableExtra("old_note");
+            try {
+                notes= (Notes) getIntent().getSerializableExtra("old_note");
             binding.editTextTitle.setText(Objects.requireNonNull(notes).getTitle());
             binding.editTextNotes.setText(notes.getNotes());
             if(binding.editTextNotes.getText().toString().length()>0){
@@ -104,8 +106,6 @@ public class NotesAdder extends AppCompatActivity {
 //            Toast.makeText(getApplicationContext(),"Please add some text",Toast.LENGTH_SHORT).show();
 //            return;
 //        }
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("EEE,d MMM yyyy HH:mm a");
-        Date date=new Date();
         if(!isOldNote){
             notes=new Notes();
         }
