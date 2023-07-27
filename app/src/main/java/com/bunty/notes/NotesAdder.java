@@ -91,7 +91,7 @@ public class NotesAdder extends AppCompatActivity {
                     binding.imagesave.setVisibility(View.VISIBLE);
                 }
                 else {
-                    binding.imagesave.setVisibility(View.GONE);
+                    binding.imagesave.setVisibility(View.INVISIBLE);
                 }
             }
             public void afterTextChanged(Editable s) {}
