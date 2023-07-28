@@ -19,23 +19,19 @@ import java.util.List;
 import java.util.Random;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
-
     Context context;
     List<Notes> list;
     NotesOnClickListener notesOnClickListener;
-
     public NoteAdapter(Context context, List<Notes> list,NotesOnClickListener notesOnClickListener) {
         this.context = context;
         this.list = list;
         this.notesOnClickListener=notesOnClickListener;
     }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.sanple_notes, parent, false));
     }
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.title.setText(list.get(position).getTitle());
@@ -73,7 +69,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
     public static class ViewHolder extends RecyclerView.ViewHolder{
-
         CardView cardView;
         TextView title, note_date, notes_text;
         ImageView imageView;
