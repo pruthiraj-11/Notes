@@ -9,7 +9,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -17,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SearchView;
 import androidx.cardview.widget.CardView;
+import androidx.core.splashscreen.SplashScreen;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -24,6 +24,7 @@ import com.bunty.notes.Adapters.NoteAdapter;
 import com.bunty.notes.Database.RoomDB;
 import com.bunty.notes.Models.Notes;
 import com.bunty.notes.databinding.ActivityMainBinding;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     String android_device_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
         binding=ActivityMainBinding.inflate(getLayoutInflater());
         super.onCreate(savedInstanceState);
         setContentView(binding.getRoot());
@@ -129,11 +131,11 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         if(id==R.id.pin){
             if(clickedNotes.isPinned()){
                 roomDB.mainDAO().pin(clickedNotes.getID(),false);
-                Toast.makeText(getApplicationContext(), "Unpinned", Toast.LENGTH_SHORT).show();
+                showMessage("Unpinned");
             }
             else {
                 roomDB.mainDAO().pin(clickedNotes.getID(),true);
-                Toast.makeText(getApplicationContext(), "Pinned", Toast.LENGTH_SHORT).show();
+                showMessage("Pinned");
             }
             list.clear();
             list.addAll(roomDB.mainDAO().getAll());
@@ -145,16 +147,20 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             roomDB.mainDAO().delete(clickedNotes);
             list.remove(clickedNotes);
             noteAdapter.notifyDataSetChanged();
+//            Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
+//            final Snackbar snackBar = Snackbar.make(findViewById(android.R.id.content), "Deleted", Snackbar.LENGTH_LONG);
+//            snackBar.setAction("Dismiss", v -> snackBar.dismiss());
+//            snackBar.show();
+            showMessage("Deleted");
             startActivity(new Intent(getApplicationContext(), TrashActivity.class));
-            Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id==R.id.swc) {
             if(checkConnection()){
                 database.getReference().getRoot().child("UserNotes").child(android_device_id).child(String.valueOf(clickedNotes.getID())).setValue(clickedNotes);
-                Toast.makeText(getApplicationContext(),"Saved",Toast.LENGTH_SHORT).show();
+                showMessage("Saved");
             }
             else {
-               Toast.makeText(getApplicationContext(),"You are offline!",Toast.LENGTH_SHORT).show();
+                showMessage("You are offline!");
             }
             return true;
         } else {
@@ -172,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         return isConnected;
     }
     public void onNetworkChange(boolean isConnected) {
-        Toast.makeText(getApplicationContext(),"You are offline!",Toast.LENGTH_SHORT).show();
+        showMessage("You are offline!");
     }
     @Override
     public void onBackPressed() {
@@ -180,5 +186,10 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 .setMessage("Are you sure you want to exit?")
                 .setNegativeButton(android.R.string.no, null)
                 .setPositiveButton(android.R.string.yes, (arg0, arg1) -> MainActivity.super.onBackPressed()).create().show();
+    }
+    public void showMessage(String message){
+        final Snackbar snackBar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
+        snackBar.setAction("Dismiss", v -> snackBar.dismiss());
+        snackBar.show();
     }
 }
